@@ -15,6 +15,17 @@
   "engines": {
     "node": ">=8.0.0"
   },
+  "dependencies": {
+    "c-e": "^1.0.2",
+    "cllc": "^0.1.1",
+    "errsome": "0.0.3",
+    "mongodb": "^3.0.10",
+    "monscr": "^1.2.0",
+    "mq-mongo": "^1.2.0",
+    "oopt": "0.0.2",
+    "scra": "^0.2.7",
+    "validate-response": "^0.1.0"
+  },
   "devDependencies": {
     "ava": "^0.25.0",
     "eslint": "^4.13.0",
