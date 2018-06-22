@@ -1,4 +1,4 @@
-const conf = require('oopt')('ac');
+const conf = require('oopt')('acC');
 const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
@@ -24,7 +24,11 @@ const targets = [
 ];
 
 const validate = require('validate-response')();
-const save = require('monscr')(db, {index: 'url'});
+const save = require('monscr')(db, {
+    index: 'url',
+    cleanErrors: conf.C,
+    cleanValid: conf.C,
+});
 const q = require('mq-mongo')(db, {
     name: `mq_zauba`,
     items: conf.a ? targets : null,
