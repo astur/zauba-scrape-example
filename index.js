@@ -42,7 +42,7 @@ const options = {
     compressed: true,
 };
 
-const parse = res => ({records: [{code: res.statusCode, url: res.url}]});
+const parse = require('./parse');
 
 const scrape = async () => {
     const {data: url, tag} = await q.get().then(async task => {
