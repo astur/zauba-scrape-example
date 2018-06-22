@@ -3,18 +3,7 @@ const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
 const ce = require('c-e');
-
-const mongo = require('mongodb').MongoClient;
-const mongoString = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
-const db = mongo.connect(mongoString).then(client => {
-    if('databaseName' in client) return client;
-    const db = client.db(mongoString.split('/').pop());
-    db.close = client.close.bind(client);
-    return db;
-}).catch(e => {
-    log.e('\n', errsome(e));
-    process.exit(1);
-});
+const db = require('./db');
 
 const targets = [
     'https://www.zaubacorp.com/companybrowse/A',
