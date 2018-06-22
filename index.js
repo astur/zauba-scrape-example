@@ -22,14 +22,9 @@ const q = require('mq-mongo')(db, {
     clean: conf.c,
 });
 
-const options = {
-    timeout: 10000,
-    compressed: true,
-};
-
 const parse = require('./parse');
 
-const scrape = async () => {
+const scrape = async options => {
     const {data: url, tag} = await q.get().then(async task => {
         if(task !== null) return task;
         const e = new (ce('QueueGetError'))('Unable to get task from queue');
@@ -63,7 +58,14 @@ const scrape = async () => {
     return {url, result};
 };
 
-scrape().then(s => log.i(s), e => log.e('\n', errsome(e))).then(async () => (await db).close());
+const onSuccess = s => log.i('\n', s);
+const onError = e => log.e('\n', errsome(e));
+const onFinish = async () => (await db).close();
+const options = {
+    timeout: 10000,
+    compressed: true,
+};
+scrape(options).then(onSuccess, onError).then(onFinish);
 
 // const work = (conf) => scrape(conf).then(onSuccess, onError);
 // dispatcher(work, {options}).then(onFinish);
