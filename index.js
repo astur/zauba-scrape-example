@@ -1,4 +1,4 @@
-const conf = require('oopt')('acC');
+const conf = require('./conf');
 const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
