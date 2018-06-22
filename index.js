@@ -3,7 +3,6 @@ const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
 const ce = require('c-e');
-const assign = (...objs) => Object.assign({}, ...objs);
 
 const mongo = require('mongodb').MongoClient;
 const mongoString = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
@@ -70,7 +69,13 @@ const scrape = async () => {
     await q.add(parsed.urls);
     await q.ack(tag);
 
-    return {url, result: assign(result, saved)};
+    result.newAds = saved.inserted;
+    result.updatedAds = saved.modified;
+    result.duplicatedAds = saved.duplicated;
+    result.successAds = saved.inserted + saved.modified + saved.duplicated;
+    result.rejectedAds = saved.errors;
+
+    return {url, result};
 };
 
 scrape().then(s => log.i(s), e => log.e('\n', errsome(e))).then(async () => (await db).close());
