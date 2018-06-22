@@ -5,11 +5,7 @@ const scra = require('scra');
 const ce = require('c-e');
 const db = require('./db');
 
-const targets = [
-    'https://www.zaubacorp.com/companybrowse/A',
-    'https://www.zaubacorp.com/companybrowse/B',
-    'https://www.zaubacorp.com/companybrowse/C',
-];
+const targets = require('./targets');
 
 const validate = require('validate-response')({
     codes: 200,
