@@ -23,7 +23,10 @@ const targets = [
     'https://www.zaubacorp.com/companybrowse/C',
 ];
 
-const validate = require('validate-response')();
+const validate = require('validate-response')({
+    codes: 200,
+    bodyMatch: /<\/html>/,
+});
 const save = require('monscr')(db, {
     index: 'url',
     cleanErrors: conf.C,
