@@ -2,7 +2,6 @@ const conf = require('./conf');
 const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
-const ce = require('c-e');
 const whiler = require('whiler');
 const db = require('./db');
 
@@ -21,6 +20,7 @@ const q = require('mq-mongo')(db, {
     name: `mq_zauba`,
     items: conf.a ? targets : null,
     clean: conf.c,
+    strict: true,
 });
 
 const parse = require('./parse');
@@ -41,12 +41,7 @@ const {collect, summary} = require('summary-collector')({
 });
 
 const scrape = async options => {
-    const {data: url, tag} = await q.get().then(async task => {
-        if(task !== null) return task;
-        const e = new (ce('QueueGetError'))('Unable to get task from queue');
-        e.stats = await q.stats();
-        throw e;
-    });
+    const {data: url, tag} = await q.get();
 
     const response = await scra(Object.assign({}, options, {url}));
     const result = {
