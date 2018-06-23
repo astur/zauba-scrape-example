@@ -3,6 +3,7 @@ const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
 const ce = require('c-e');
+const whiler = require('whiler');
 const db = require('./db');
 
 const targets = require('./targets');
@@ -77,6 +78,7 @@ const onSuccess = s => {
     collect('requestCountSuccess', 1);
     collect(s.result);
     // log.i('\n', s);
+    return true;
 };
 const onError = e => {
     collect('requestCountError', 1);
@@ -91,6 +93,6 @@ const options = {
     compressed: true,
 };
 
-const work = scrape(options).then(onSuccess, onError);
+const work = () => scrape(options).then(onSuccess, onError);
 
-work.then(onFinish);
+whiler(work).then(onFinish);
