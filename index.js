@@ -76,7 +76,7 @@ const scrape = async options => {
 const onSuccess = s => {
     collect('requestCountSuccess', 1);
     collect(s.result);
-    log.i('\n', s);
+    // log.i('\n', s);
 };
 const onError = e => {
     collect('requestCountError', 1);
@@ -90,7 +90,7 @@ const options = {
     timeout: 10000,
     compressed: true,
 };
-scrape(options).then(onSuccess, onError).then(onFinish);
 
-// const work = (conf) => scrape(conf).then(onSuccess, onError);
-// dispatcher(work, {options}).then(onFinish);
+const work = scrape(options).then(onSuccess, onError);
+
+work.then(onFinish);
