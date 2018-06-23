@@ -24,6 +24,21 @@ const q = require('mq-mongo')(db, {
 
 const parse = require('./parse');
 
+const {collect, summary} = require('summary-collector')({
+    counters: [
+        'bytesSent',
+        'bytesReceived',
+        'newAds',
+        'updatedAds',
+        'duplicatedAds',
+        'successAds',
+        'rejectedAds',
+        'requestCountSuccess',
+        'requestCountError',
+    ],
+    quantile: 0.95,
+});
+
 const scrape = async options => {
     const {data: url, tag} = await q.get().then(async task => {
         if(task !== null) return task;
@@ -58,9 +73,19 @@ const scrape = async options => {
     return {url, result};
 };
 
-const onSuccess = s => log.i('\n', s);
-const onError = e => log.e('\n', errsome(e));
-const onFinish = async () => (await db).close();
+const onSuccess = s => {
+    collect('requestCountSuccess', 1);
+    collect(s.result);
+    log.i('\n', s);
+};
+const onError = e => {
+    collect('requestCountError', 1);
+    log.e('\n', errsome(e));
+};
+const onFinish = async () => {
+    log.d('\n', summary());
+    (await db).close();
+};
 const options = {
     timeout: 10000,
     compressed: true,
