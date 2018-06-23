@@ -78,6 +78,7 @@ const onSuccess = s => {
     collect('requestCountSuccess', 1);
     collect(s.result);
     // log.i('\n', s);
+    log.step();
     return true;
 };
 const onError = e => {
@@ -86,6 +87,7 @@ const onError = e => {
 };
 const onFinish = async () => {
     log.d('\n', summary());
+    log.finish();
     (await db).close();
 };
 const options = {
@@ -94,5 +96,7 @@ const options = {
 };
 
 const work = () => scrape(options).then(onSuccess, onError);
+
+log.start('[ %s - pages scraped]');
 
 whiler(work).then(onFinish);
