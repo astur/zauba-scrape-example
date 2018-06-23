@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "c-e": "^1.0.2",
-    "cllc": "^1.0.0",
+    "cllc": "^1.0.1",
     "errsome": "^1.0.0",
     "mongodb": "^3.0.10",
     "monscr": "^1.3.0",
