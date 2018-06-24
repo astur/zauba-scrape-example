@@ -45,30 +45,36 @@ const {collect, summary} = require('summary-collector')({
 const scrape = async options => {
     const {data: url, tag} = await q.get();
 
-    const response = await scra(Object.assign({}, options, {url}));
-    const result = {
-        requestTime: response.requestTime,
-        bytesSent: response.bytes.sent,
-        bytesReceived: response.bytes.received,
-    };
-    await validate(response);
-    const parsed = await parse(response);
+    try {
+        const response = await scra(Object.assign({}, options, {url}));
+        const result = {
+            requestTime: response.requestTime,
+            bytesSent: response.bytes.sent,
+            bytesReceived: response.bytes.received,
+        };
+        await validate(response);
+        const parsed = await parse(response);
 
-    // const records = await transform(parsed.records);
-    // const urls = await check(parsed.urls);
+        // const records = await transform(parsed.records);
+        // const urls = await check(parsed.urls);
 
-    await q.ping(tag);
-    const saved = await save(parsed.records);
-    await q.add(parsed.urls);
-    await q.ack(tag);
+        await q.ping(tag);
+        const saved = await save(parsed.records);
+        await q.add(parsed.urls);
+        await q.ack(tag);
 
-    result.newAds = saved.inserted;
-    result.updatedAds = saved.modified;
-    result.duplicatedAds = saved.duplicated;
-    result.successAds = saved.inserted + saved.modified + saved.duplicated;
-    result.rejectedAds = saved.errors;
+        result.newAds = saved.inserted;
+        result.updatedAds = saved.modified;
+        result.duplicatedAds = saved.duplicated;
+        result.successAds = saved.inserted + saved.modified + saved.duplicated;
+        result.rejectedAds = saved.errors;
 
-    return {url, result};
+        return {url, result};
+    } catch(e){
+        await q.ping(tag, 1); //mark task as failed
+        // await q.ack(tag); //delete task from queue
+        throw e; //if url is impotant then it is in e.url
+    }
 };
 
 const onSuccess = s => {
