@@ -77,8 +77,10 @@ const onSuccess = s => {
     return true;
 };
 const onError = e => {
-    collect('requestCountError', 1);
+    if(e.name === 'QueueGetError') return;
+    if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
     log.e('\n', errsome(e));
+    return true;
 };
 const onFinish = async () => {
     log.d('\n', summary());
