@@ -104,4 +104,4 @@ const work = () => scrape(options).then(onSuccess, onError);
 
 log.start('[ %s - pages scraped]');
 
-whiler(work).then(onFinish);
+Promise.all([whiler(work), whiler(work)]).then(onFinish);
