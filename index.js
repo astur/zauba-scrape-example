@@ -21,6 +21,7 @@ const q = require('mq-mongo')(db, {
     items: conf.a ? targets : null,
     clean: conf.c,
     strict: true,
+    tries: 1,
 });
 
 const parse = require('./parse');
