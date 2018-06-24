@@ -91,8 +91,10 @@ const onError = async e => {
     return true;
 };
 const onFinish = async () => {
-    log.d('\n', summary());
     log.finish();
+    log.d('\n', summary());
+    const failed = await q.failed();
+    if(failed) log.d(`Failed ${failed} tasks. See database.`);
     (await db).close();
 };
 const options = {
