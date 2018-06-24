@@ -87,7 +87,7 @@ const onSuccess = s => {
 const onError = async e => {
     if(e.name === 'QueueGetError'){
         if(e.stats.active){
-            await delay(500);
+            await delay(conf.waitForActive);
             return true;
         }
         return;
@@ -113,4 +113,4 @@ const work = () => scrape(options).then(onSuccess, onError);
 log.start('[ %s - pages scraped]');
 
 // Promise.all([whiler(work), whiler(work)]).then(onFinish);
-Promise.all([...Array(10)].map(() => whiler(work))).then(onFinish);
+Promise.all([...Array(conf.concurrency)].map(() => whiler(work))).then(onFinish);
