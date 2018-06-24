@@ -3,6 +3,7 @@ const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
 const whiler = require('whiler');
+const delay = require('delay');
 const db = require('./db');
 
 const targets = require('./targets');
@@ -77,10 +78,16 @@ const onSuccess = s => {
     log.step();
     return true;
 };
-const onError = e => {
-    if(e.name === 'QueueGetError') return;
-    if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
+const onError = async e => {
+    if(e.name === 'QueueGetError'){
+        if(e.stats.active){
+            await delay(500);
+            return true;
+        }
+        return;
+    }
     log.e('\n', errsome(e));
+    if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
     return true;
 };
 const onFinish = async () => {
