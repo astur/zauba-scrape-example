@@ -5,10 +5,13 @@ module.exports = res => {
     const $ = load(res.body);
     if(/\/[A-Z]$/.test(res.url)){
         const max = $('.pagination li a').last().attr('href').match(/\/(\d+)$/)[1];
-        urls.push([res.url, max].join('/'));
+        urls.push(...[...Array(+max + 1).keys()].slice(2).map(i => [res.url, i].join('/')));
+        // urls.push(...[2, max].map(i => [res.url, i].join('/')));
+        // urls.push([res.url, max].join('/'));
     }
     if(/companybrowse/.test(res.url)){
-        $('.table-striped a').slice(0, 3).each((i, el) => {
+        // $('.table-striped a').slice(0, 3).each((i, el) => {
+        $('.table-striped a').each((i, el) => {
             urls.push($(el).attr('href'));
         });
     }
