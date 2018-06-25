@@ -92,6 +92,17 @@ const onError = async e => {
         }
         return;
     }
+    if(e.name === 'ValidateResponceError' && e.codes.includes('E_INVALID_STATUS') && e.statusCode === 301){
+        q.add(e.headers.location);
+        log.w(
+            'Redirected permanently.',
+            '\nFrom: ',
+            e.url,
+            '\nTo: ',
+            e.headers.location,
+        );
+        return true;
+    }
     log.e('\n', errsome(e));
     if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
     return true;
