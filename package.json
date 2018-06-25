@@ -26,7 +26,7 @@
     "oopt": "^1.0.0",
     "scra": "^1.0.0",
     "summary-collector": "^1.0.0",
-    "validate-response": "^1.0.0",
+    "validate-response": "^1.2.0",
     "whiler": "^1.0.0"
   },
   "devDependencies": {
