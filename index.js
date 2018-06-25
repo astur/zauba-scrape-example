@@ -80,7 +80,6 @@ const scrape = async options => {
 const onSuccess = s => {
     collect('requestCountSuccess', 1);
     collect(s.result);
-    // log.i('\n', s);
     log.step();
     return true;
 };
@@ -123,5 +122,4 @@ const work = () => scrape(options).then(onSuccess, onError);
 
 log.start('[ %s - pages scraped]');
 
-// Promise.all([whiler(work), whiler(work)]).then(onFinish);
 Promise.all([...Array(conf.concurrency)].map(() => whiler(work))).then(onFinish);
