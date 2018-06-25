@@ -71,9 +71,13 @@ const scrape = async options => {
 
         return {url, result};
     } catch(e){
-        await q.ping(tag, 1); //mark task as failed
-        // await q.ack(tag); //delete task from queue
-        throw e; //if url is impotant then it is in e.url
+        if(/mongo/i.test(e.name)) throw e;
+        if(conf.z){
+            await q.ping(tag, 1);
+        } else {
+            await q.ack(tag);
+        }
+        throw e;
     }
 };
 
