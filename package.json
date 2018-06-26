@@ -23,6 +23,7 @@
     "mongodb": "^3.0.10",
     "monscr": "^1.3.0",
     "mq-mongo": "^1.3.0",
+    "oassign": "^2.0.0",
     "oopt": "^1.0.0",
     "scra": "^1.0.0",
     "summary-collector": "^1.0.0",
