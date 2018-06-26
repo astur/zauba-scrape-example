@@ -28,6 +28,10 @@ const q = require('mq-mongo')(db, {
 
 const parse = require('./parse');
 
+const transform = require('./transform');
+
+const check = require('./check')(db);
+
 const {collect, summary} = require('summary-collector')({
     counters: [
         'bytesSent',
@@ -56,12 +60,12 @@ const scrape = async options => {
         await validate(response);
         const parsed = await parse(response);
 
-        // const records = await transform(parsed.records);
-        // const urls = await check(parsed.urls);
+        const records = await transform(parsed.records);
+        const urls = await check(parsed.urls);
 
         await q.ping(tag);
-        const saved = await save(parsed.records);
-        await q.add(parsed.urls);
+        const saved = await save(records);
+        await q.add(urls);
         await q.ack(tag);
 
         result.newAds = saved.inserted;
