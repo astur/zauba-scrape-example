@@ -87,6 +87,7 @@ const onSuccess = s => {
     log.step();
     return true;
 };
+
 const onError = async e => {
     if(e.name === 'QueueGetError'){
         if(e.stats.active){
@@ -110,13 +111,24 @@ const onError = async e => {
     if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
     return true;
 };
+
 const onFinish = async () => {
     log.finish();
-    log.d('\n', summary());
-    const failed = await q.failed();
-    if(failed) log.d(`Failed ${failed} tasks. See database.`);
+    const sum = {
+        src: 'zauba',
+        startDt: new Date(conf.startDt),
+        endDt: new Date(),
+        parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
+        result: {
+            status: 'ok',
+            message: '',
+        },
+    };
+    const failed = conf.z ? {failedTasks: await q.failed()} : {};
+    log.i('\n', Object.assign({}, sum, summary(), failed));
     (await db).close();
 };
+
 const options = {
     timeout: 10000,
     compressed: true,
