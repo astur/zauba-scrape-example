@@ -4,6 +4,7 @@ const log = require('cllc')(null, '%F %T');
 const scra = require('scra');
 const whiler = require('whiler');
 const delay = require('delay');
+const oassign = require('oassign');
 const db = require('./db');
 
 const targets = require('./targets');
@@ -46,7 +47,7 @@ const scrape = async options => {
     const {data: url, tag} = await q.get();
 
     try {
-        const response = await scra(Object.assign({}, options, {url}));
+        const response = await scra(oassign(options, {url}));
         const result = {
             requestTime: response.requestTime,
             bytesSent: response.bytes.sent,
@@ -125,7 +126,7 @@ const onFinish = async () => {
         },
     };
     const failed = conf.z ? {failedTasks: await q.failed()} : {};
-    log.i('\n', Object.assign({}, sum, summary(), failed));
+    log.i('\n', oassign(sum, summary(), failed));
     (await db).close();
 };
 
