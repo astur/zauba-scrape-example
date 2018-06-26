@@ -16,7 +16,6 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
     "cllc": "^1.0.1",
     "delay": "^3.0.0",
     "errsome": "^1.0.0",

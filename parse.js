@@ -1,23 +1,20 @@
-const load = require('cheerio').load;
 module.exports = res => {
     const records = [];
     const urls = [];
     try {
-        const $ = load(res.body);
         if(/\/[A-Z]$/.test(res.url)){
-            const max = $('.pagination li a').last().attr('href').match(/\/(\d+)$/)[1];
+            const max = res.body.match(/pagination">.*href="\/companybrowse\/\w+\/(\d+)"><span aria-hidden/)[1];
             urls.push(...[...Array(+max + 1).keys()].slice(2).map(i => [res.url, i].join('/')));
         }
         if(/companybrowse/.test(res.url)){
-            $('.table-striped a').each((i, el) => {
-                urls.push($(el).attr('href'));
-            });
+            const _ = res.body.match(/<table.*<\/table/)[0];
+            urls.push(..._.match(/href="([^"]+)"/g).map(s => s.match(/href="([^"]+)"/)[1]));
         }
         if(/company\//.test(res.url)){
             records.push({
                 url: res.url,
-                name: $('.breadcrumb').text().split(/\u203a/)[1].trim(),
-                asOnDate: $('[style$="width:45%;"]').text().split(':')[1].trim(),
+                name: (res.body.match(/>Home<\/a>.{3}([^<]+)</) || [])[1] || null,
+                asOnDate: (res.body.match(/width:45%;"><b>As on: ([^<]+) <\/b/) || [])[1] || null,
                 cin: res.url.split('/').pop(),
                 email: (res.body.match(/Email ID: <\/b>([^-<][^<]+)<\/p>/) || [])[1] || null,
                 address: (res.body.match(/Address: <\/b><\/p><p>([^<]+)<\/br>/) || [])[1] || null,
