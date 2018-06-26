@@ -144,7 +144,7 @@ const onFinish = async () => {
         },
         newAds: sum.newAds,
         updatedAds: sum.updatedAds,
-        totalAds: sum.totalAds,
+        duplicatedAds: sum.duplicatedAds,
         successAds: sum.successAds,
         rejectedAds: sum.rejectedAds,
         requestCountSuccess: sum.requestCountSuccess,
