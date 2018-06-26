@@ -17,6 +17,10 @@ module.exports = res => {
             records.push({
                 url: res.url,
                 name: $('.breadcrumb').text().split(/\u203a/)[1].trim(),
+                asOnDate: $('[style$="width:45%;"]').text().split(':')[1].trim(),
+                cin: res.url.split('/').pop(),
+                email: (res.body.match(/Email ID: <\/b>([^-<][^<]+)<\/p>/) || [])[1] || null,
+                address: (res.body.match(/Address: <\/b><\/p><p>([^<]+)<\/br>/) || [])[1] || null,
             });
         }
     } catch(e){
