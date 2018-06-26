@@ -82,6 +82,13 @@ const scrape = async options => {
     }
 };
 
+const saveLog = require('monscr')(db, {
+    valid: 'log',
+    errors: 'logerrors',
+    index: 'startDt',
+    check: () => true,
+});
+
 const onSuccess = s => {
     collect('requestCountSuccess', 1);
     collect(s.result);
@@ -125,7 +132,8 @@ const onError = async e => {
 
 const onFinish = async () => {
     log.finish();
-    const sum = {
+    const sum = summary();
+    const result = {
         src: 'zauba',
         startDt: new Date(conf.startDt),
         endDt: new Date(),
@@ -134,9 +142,24 @@ const onFinish = async () => {
             status: 'ok',
             message: '',
         },
+        newAds: sum.newAds,
+        updatedAds: sum.updatedAds,
+        totalAds: sum.totalAds,
+        successAds: sum.successAds,
+        rejectedAds: sum.rejectedAds,
+        requestCountSuccess: sum.requestCountSuccess,
+        requestCountError: sum.requestCountError,
+        requestCountTotal: sum.requestCountSuccess + sum.requestCountError,
+        bytesSent: sum.bytesSent,
+        bytesReceived: sum.bytesReceived,
+        requestTimeMin: sum.requestTime.min,
+        requestTimeMax: sum.requestTime.max,
+        requestTimeAvg: sum.requestTime.avg,
+        requestTime95Percentile: sum.requestTime.quantile['0.95'],
     };
-    const failed = conf.z ? {failedTasks: await q.failed()} : {};
-    log.i('\n', oassign(sum, summary(), failed));
+    if(conf.z) result.failedTasks = await q.failed();
+    log.i('\n', result);
+    await saveLog(result).catch(e => log.e('\n', errsome(e)));
     (await db).close();
 };
 
