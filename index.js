@@ -172,4 +172,4 @@ const work = () => scrape(options).then(onSuccess, onError);
 
 log.start('[ %s - pages scraped]');
 
-Promise.all([...Array(conf.concurrency)].map(() => whiler(work))).then(onFinish);
+Promise.all([...Array(conf.concurrency)].map(() => whiler(work))).then(onFinish).catch(e => log.e('\n', errsome(e)));
