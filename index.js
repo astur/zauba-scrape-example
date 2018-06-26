@@ -108,8 +108,18 @@ const onError = async e => {
         );
         return true;
     }
+    if(e.name === 'TimeoutError'){
+        q.add(e.url);
+        log.w(
+            `Request aborted by timeout ${e.timeout} ms`,
+            '\nTask returned to queue:',
+            `\nURL: ${e.url}`,
+        );
+        collect('requestCountError', 1);
+        return true;
+    }
+    if(e.name === 'NetworkError') collect('requestCountError', 1);
     log.e('\n', errsome(e));
-    if(['TimeoutError', 'NetworkError'].includes(e.name)) collect('requestCountError', 1);
     return true;
 };
 
