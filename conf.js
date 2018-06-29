@@ -32,5 +32,9 @@ conf.queue = {
     strict: true,
     tries: 1,
 };
+conf.httpOptions = {
+    timeout: 10000,
+    compressed: true,
+};
 
 module.exports = conf;

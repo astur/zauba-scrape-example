@@ -144,12 +144,7 @@ const onFinish = async () => {
     (await db).close();
 };
 
-const options = {
-    timeout: 10000,
-    compressed: true,
-};
-
-const work = () => scrape(options).then(onSuccess, onError);
+const work = () => scrape(conf.httpOptions).then(onSuccess, onError);
 
 log.start('[ %s - pages scraped]');
 
