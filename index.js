@@ -102,32 +102,8 @@ const onError = async e => {
 const onFinish = async () => {
     log.finish();
     const sum = summary();
-    const result = {
-        src: conf.id,
-        startDt: new Date(conf.startDt),
-        endDt: new Date(),
-        parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
-        result: {
-            status: 'ok',
-            message: '',
-        },
-        newAds: sum.newAds,
-        updatedAds: sum.updatedAds,
-        duplicatedAds: sum.duplicatedAds,
-        successAds: sum.successAds,
-        rejectedAds: sum.rejectedAds,
-        requestCountSuccess: sum.requestCountSuccess,
-        requestCountError: sum.requestCountError,
-        requestCountTotal: sum.requestCountSuccess + sum.requestCountError,
-        bytesSent: sum.bytesSent,
-        bytesReceived: sum.bytesReceived,
-        requestTimeMin: sum.requestTime.min,
-        requestTimeMax: sum.requestTime.max,
-        requestTimeAvg: sum.requestTime.avg,
-        requestTime95Percentile: sum.requestTime.quantile['0.95'],
-    };
-    log.i('\n', result);
-    await saveLog(result).catch(e => log.e('\n', errsome(e)));
+    log.i('\n', sum);
+    await saveLog(sum).catch(e => log.e('\n', errsome(e)));
     (await db).close();
 };
 
