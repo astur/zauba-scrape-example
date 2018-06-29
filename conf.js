@@ -7,6 +7,7 @@ const conf = require('oopt')('acC');
 conf.targets = ['https://www.zaubacorp.com/companybrowse/Xa'];
 // conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
 
+conf.id = 'zauba';
 conf.concurrency = 10;
 conf.waitForActive = 500;
 conf.startDt = Date.now();
@@ -26,7 +27,7 @@ conf.save = {
     },
 };
 conf.queue = {
-    name: `mq_zauba`,
+    name: `mq_${conf.id}`,
     items: conf.a ? conf.targets : null,
     clean: conf.c,
     strict: true,

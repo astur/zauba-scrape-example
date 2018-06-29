@@ -103,7 +103,7 @@ const onFinish = async () => {
     log.finish();
     const sum = summary();
     const result = {
-        src: 'zauba',
+        src: conf.id,
         startDt: new Date(conf.startDt),
         endDt: new Date(),
         parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
