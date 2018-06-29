@@ -77,11 +77,7 @@ const scrape = async options => {
         return {url, result};
     } catch(e){
         if(/mongo/i.test(e.name)) throw e;
-        if(conf.z){
-            await q.ping(tag, 1);
-        } else {
-            await q.ack(tag);
-        }
+        await q.ack(tag);
         throw e;
     }
 };
@@ -161,7 +157,6 @@ const onFinish = async () => {
         requestTimeAvg: sum.requestTime.avg,
         requestTime95Percentile: sum.requestTime.quantile['0.95'],
     };
-    if(conf.z) result.failedTasks = await q.failed();
     log.i('\n', result);
     await saveLog(result).catch(e => log.e('\n', errsome(e)));
     (await db).close();
