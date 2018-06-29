@@ -21,20 +21,7 @@ const transform = require('./transform');
 
 const check = require('./check')(db);
 
-const {collect, summary} = require('summary-collector')({
-    counters: [
-        'bytesSent',
-        'bytesReceived',
-        'newAds',
-        'updatedAds',
-        'duplicatedAds',
-        'successAds',
-        'rejectedAds',
-        'requestCountSuccess',
-        'requestCountError',
-    ],
-    quantile: 0.95,
-});
+const {collect, summary} = require('./sc');
 
 const scrape = async options => {
     const {data: url, tag} = await q.get();
