@@ -10,11 +10,11 @@ const db = require('./db');
 const targets = require('./targets');
 
 const validate = require('validate-response')(conf.validate);
-const save = require('monscr')(db, {
-    index: 'url',
-    cleanErrors: conf.C,
-    cleanValid: conf.C,
-});
+
+const save = require('monscr')(db, conf.save.data);
+
+const saveLog = require('monscr')(db, conf.save.log);
+
 const q = require('mq-mongo')(db, {
     name: `mq_zauba`,
     items: conf.a ? targets : null,
@@ -78,13 +78,6 @@ const scrape = async options => {
         throw e;
     }
 };
-
-const saveLog = require('monscr')(db, {
-    valid: 'log',
-    errors: 'logerrors',
-    index: 'startDt',
-    check: () => true,
-});
 
 const onSuccess = s => {
     collect('requestCountSuccess', 1);
