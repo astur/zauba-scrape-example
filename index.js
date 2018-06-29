@@ -44,13 +44,7 @@ const scrape = async options => {
         await q.add(urls);
         await q.ack(tag);
 
-        result.newAds = saved.inserted;
-        result.updatedAds = saved.modified;
-        result.duplicatedAds = saved.duplicated;
-        result.successAds = saved.inserted + saved.modified + saved.duplicated;
-        result.rejectedAds = saved.errors;
-
-        return {url, result};
+        return {url, result: oassign(result, saved)};
     } catch(e){
         if(/mongo/i.test(e.name)) throw e;
         await q.ack(tag);
