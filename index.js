@@ -9,10 +9,7 @@ const db = require('./db');
 
 const targets = require('./targets');
 
-const validate = require('validate-response')({
-    codes: 200,
-    bodyMatch: /<\/html>/,
-});
+const validate = require('validate-response')(conf.validate);
 const save = require('monscr')(db, {
     index: 'url',
     cleanErrors: conf.C,
