@@ -13,13 +13,7 @@ const save = require('monscr')(db, conf.save.data);
 
 const saveLog = require('monscr')(db, conf.save.log);
 
-const q = require('mq-mongo')(db, {
-    name: `mq_zauba`,
-    items: conf.a ? conf.targets : null,
-    clean: conf.c,
-    strict: true,
-    tries: 1,
-});
+const q = require('mq-mongo')(db, conf.queue);
 
 const parse = require('./parse');
 

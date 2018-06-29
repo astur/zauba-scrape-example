@@ -25,5 +25,12 @@ conf.save = {
         check: () => true,
     },
 };
+conf.queue = {
+    name: `mq_zauba`,
+    items: conf.a ? conf.targets : null,
+    clean: conf.c,
+    strict: true,
+    tries: 1,
+};
 
 module.exports = conf;
