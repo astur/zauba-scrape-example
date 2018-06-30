@@ -1,56 +1,14 @@
 const conf = require('./conf');
 const errsome = require('errsome');
 const log = require('cllc')(null, '%F %T');
-const scra = require('scra');
 const whiler = require('whiler');
 const delay = require('delay');
-const oassign = require('oassign');
 const db = require('./db');
 
-const validate = require('validate-response')(conf.validate);
-
-const save = require('monscr')(db, conf.save.data);
-
 const saveLog = require('monscr')(db, conf.save.log);
-
-const q = require('mq-mongo')(db, conf.queue.scrape);
-
-const parse = require('./parse');
-
-const transform = require('./transform');
-
-const check = require('./check')(db);
-
+const q = require('mq-mongo')(db, conf.queue.handle);
 const {collect, summary} = require('./sc');
-
-const scrape = async options => {
-    const {data: url, tag} = await q.get();
-
-    try {
-        const response = await scra(oassign(options, {url}));
-        const result = {
-            requestTime: response.requestTime,
-            bytesSent: response.bytes.sent,
-            bytesReceived: response.bytes.received,
-        };
-        await validate(response);
-        const parsed = await parse(response);
-
-        const records = await transform(parsed.records);
-        const urls = await check(parsed.urls);
-
-        await q.ping(tag);
-        const saved = await save(records);
-        await q.add(urls);
-        await q.ack(tag);
-
-        return {url, result: oassign(result, saved)};
-    } catch(e){
-        if(/mongo/i.test(e.name)) throw e;
-        await q.ack(tag);
-        throw e;
-    }
-};
+const scrape = require('./scrape');
 
 const onSuccess = s => {
     collect('requestCountSuccess', 1);
