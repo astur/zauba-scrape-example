@@ -13,7 +13,7 @@ const save = require('monscr')(db, conf.save.data);
 
 const saveLog = require('monscr')(db, conf.save.log);
 
-const q = require('mq-mongo')(db, conf.queue);
+const q = require('mq-mongo')(db, conf.queue.scrape);
 
 const parse = require('./parse');
 

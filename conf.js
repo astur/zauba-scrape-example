@@ -27,11 +27,17 @@ conf.save = {
     },
 };
 conf.queue = {
-    name: `mq_${conf.id}`,
-    items: conf.a ? conf.targets : null,
-    clean: conf.c,
-    strict: true,
-    tries: 1,
+    scrape: {
+        name: `mq_${conf.id}`,
+        items: conf.a ? conf.targets : null,
+        clean: conf.c,
+        strict: true,
+        tries: 1,
+    },
+    handle: {
+        name: `mq_${conf.id}`,
+        tries: 1,
+    },
 };
 conf.httpOptions = {
     timeout: 10000,
