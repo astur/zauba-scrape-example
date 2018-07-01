@@ -49,6 +49,10 @@ const onError = async e => {
     return true;
 };
 
+const onStart = async () => {
+    log.start('[ %s - pages scraped]');
+};
+
 const onFinish = async () => {
     log.finish();
     const sum = summary();
@@ -57,4 +61,4 @@ const onFinish = async () => {
     (await db).close();
 };
 
-module.exports = {onSuccess, onError, onFinish};
+module.exports = {onSuccess, onError, onStart, onFinish};
