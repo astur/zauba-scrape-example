@@ -1,7 +1,7 @@
 const conf = require('./conf');
 const oassign = require('oassign');
 const db = require('./db');
-const q = require('mq-mongo')(db, conf.queue.scrape);
+const q = require('./queue');
 const scra = require('scra');
 const validate = require('validate-response')(conf.validate);
 const parse = require('./parse');
