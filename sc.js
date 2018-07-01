@@ -16,7 +16,7 @@ const {collect, summary} = require('summary-collector')({
 
 const _summary = () => {
     const sum = summary();
-    return {
+    const result = {
         src: conf.id,
         startDt: new Date(conf.startDt),
         endDt: new Date(),
@@ -25,21 +25,24 @@ const _summary = () => {
             status: 'ok',
             message: '',
         },
-        newAds: sum.inserted,
-        updatedAds: sum.modified,
-        duplicatedAds: sum.duplicated,
-        successAds: sum.inserted + sum.modified + sum.duplicated,
-        rejectedAds: sum.errors,
-        requestCountSuccess: sum.requestCountSuccess,
-        requestCountError: sum.requestCountError,
-        requestCountTotal: sum.requestCountSuccess + sum.requestCountError,
-        bytesSent: sum.bytesSent,
-        bytesReceived: sum.bytesReceived,
-        requestTimeMin: sum.requestTime.min,
-        requestTimeMax: sum.requestTime.max,
-        requestTimeAvg: sum.requestTime.avg,
-        requestTime95Percentile: sum.requestTime.quantile['0.95'],
     };
+    result.requestCountTotal = sum.requestCountSuccess + sum.requestCountError;
+    if(result.requestCountTotal > 0){
+        result.requestCountSuccess = sum.requestCountSuccess;
+        result.requestCountError = sum.requestCountError;
+        result.bytesSent = sum.bytesSent;
+        result.bytesReceived = sum.bytesReceived;
+        result.requestTimeMin = sum.requestTime.min;
+        result.requestTimeMax = sum.requestTime.max;
+        result.requestTimeAvg = sum.requestTime.avg;
+        result.requestTime95Percentile = sum.requestTime.quantile['0.95'];
+        result.newAds = sum.inserted;
+        result.updatedAds = sum.modified;
+        result.duplicatedAds = sum.duplicated;
+        result.successAds = sum.inserted + sum.modified + sum.duplicated;
+        result.rejectedAds = sum.errors;
+    }
+    return result;
 };
 
 module.exports = {collect, summary: _summary};
