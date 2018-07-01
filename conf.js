@@ -28,7 +28,7 @@ conf.save = {
 };
 conf.queue = {
     name: `mq_${conf.id}`,
-    items: conf.a ? conf.targets : null,
+    // items: conf.a ? conf.targets : null,
     clean: conf.c,
     strict: true,
     tries: 1,

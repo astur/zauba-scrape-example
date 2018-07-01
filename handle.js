@@ -51,6 +51,7 @@ const onError = async e => {
 
 const onStart = async () => {
     log.start('[ %s - pages scraped]');
+    if(conf.a) await q.add(conf.targets);
 };
 
 const onFinish = async () => {
