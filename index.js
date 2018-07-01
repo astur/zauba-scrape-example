@@ -7,6 +7,6 @@ const scrape = require('./scrape');
 const {onSuccess, onError, onStart, onFinish} = require('./handle');
 
 const work = () => scrape(conf.httpOptions).then(onSuccess, onError);
-const works = [...Array(conf.concurrency)].map(() => whiler(work));
+const flow = () => Promise.all([...Array(conf.concurrency)].map(() => whiler(work)));
 
-onStart().then(() => Promise.all(works)).then(onFinish).catch(e => log.e('\n', errsome(e)));
+onStart().then(flow).then(onFinish).catch(e => log.e('\n', errsome(e)));
