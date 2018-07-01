@@ -55,10 +55,13 @@ const onStart = async () => {
 };
 
 const onFinish = async () => {
-    log.finish();
-    const sum = summary();
-    log.i('\n', sum);
-    await saveLog(sum).catch(e => log.e('\n', errsome(e)));
+    try {
+        const sum = summary();
+        log.i('\n', sum);
+        await saveLog(sum);
+    } catch(e){
+        log.e('\n', errsome(e));
+    }
     (await db).close();
 };
 
