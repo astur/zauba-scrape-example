@@ -1,8 +1,7 @@
-const conf = require('oopt')('acC');
+const conf = require('oopt')('ac');
 
 // -a - add targets
-// -c - clear queue
-// -C - clear data/error DB
+// -c - clear data/error DB
 
 conf.targets = ['https://www.zaubacorp.com/companybrowse/Xa'];
 // conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
@@ -16,8 +15,8 @@ conf.validate = {codes: 200, bodyMatch: /<\/html>/};
 conf.save = {
     data: {
         index: 'url',
-        cleanErrors: conf.C,
-        cleanValid: conf.C,
+        cleanErrors: conf.c,
+        cleanValid: conf.c,
     },
     log: {
         valid: 'log',
