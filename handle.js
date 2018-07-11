@@ -38,6 +38,7 @@ const onError = async e => {
     if(e.name === 'TimeoutError'){
         q.add(e.url);
         log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
+        _.pause(conf.waitAfterTimeoutError);
         return !_.stopped();
     }
     if(e.name === 'NetworkError'){
