@@ -12,7 +12,7 @@ conf.maxTasks = +conf.l || null;
 conf.maxErrors = +conf.E || null;
 conf.maxTagErrors = +conf.e || null;
 
-conf.targets = ['https://www.zaubacorp.com/companybrowse/Xa'];
+conf.targets = ['https://www.zaubacorp.com/companybrowse/X'];
 // conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
 
 conf.id = 'zauba';
