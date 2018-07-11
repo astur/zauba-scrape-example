@@ -9,6 +9,8 @@ const {collect, summary} = require('./sc');
 const _ = require('abbado')({
     timeout: conf.maxTime,
     count: conf.maxTasks,
+    errorLimit: conf.maxErrors,
+    tagErrorLimit: conf.maxTagErrors,
 });
 
 const onSuccess = async s => {
@@ -37,6 +39,7 @@ const onError = async e => {
     collect('requestCountError', 1);
     if(e.name === 'TimeoutError'){
         q.add(e.url);
+        _.error(e.url);
         log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
         _.pause(conf.waitAfterTimeoutError);
         return !_.stopped();

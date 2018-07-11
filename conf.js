@@ -1,12 +1,16 @@
-const conf = require('oopt')('act:l:');
+const conf = require('oopt')('act:l:e:E:');
 
 // -a - add targets
 // -c - clear data/error DB
 // -t - scrape maxTime in ms
 // -l - scrape maxTasks
+// -E - scrape maxErrors
+// -e - scrape maxTagErrors
 
 conf.maxTime = +conf.t || null;
 conf.maxTasks = +conf.l || null;
+conf.maxErrors = +conf.E || null;
+conf.maxTagErrors = +conf.e || null;
 
 conf.targets = ['https://www.zaubacorp.com/companybrowse/Xa'];
 // conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
