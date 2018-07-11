@@ -7,7 +7,7 @@ const saveLog = require('monscr')(db, conf.save.log);
 const q = require('./queue');
 const {collect, summary} = require('./sc');
 const _ = require('abbado')({
-    timeout: null,
+    timeout: conf.maxTime,
     count: null,
 });
 

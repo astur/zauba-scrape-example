@@ -1,7 +1,10 @@
-const conf = require('oopt')('ac');
+const conf = require('oopt')('act:');
 
 // -a - add targets
 // -c - clear data/error DB
+// -t - scrape maxTime in ms
+
+conf.maxTime = +conf.t || null;
 
 conf.targets = ['https://www.zaubacorp.com/companybrowse/Xa'];
 // conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
