@@ -31,23 +31,13 @@ const onError = async e => {
     }
     if(e.name === 'ValidateResponceError' && e.codes.includes('E_INVALID_STATUS') && e.statusCode === 301){
         q.add(e.headers.location);
-        log.w(
-            'Redirected permanently.',
-            '\nFrom: ',
-            e.url,
-            '\nTo: ',
-            e.headers.location,
-        );
+        log.w(`Redirected permanently.\nFrom: ${e.url}\nTo: ${e.headers.location}`);
         return !_.stopped();
     }
     collect('requestCountError', 1);
     if(e.name === 'TimeoutError'){
         q.add(e.url);
-        log.w(
-            `Request aborted by timeout ${e.timeout} ms`,
-            '\nTask returned to queue:',
-            `\nURL: ${e.url}`,
-        );
+        log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
         return !_.stopped();
     }
     if(e.name === 'NetworkError'){
