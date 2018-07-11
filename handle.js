@@ -25,7 +25,7 @@ const onError = async e => {
     if(e.name === 'QueueGetError'){
         if(e.stats.active){
             await delay(conf.waitForActive);
-            return true;
+            return !_.stopped();
         }
         return;
     }
@@ -38,8 +38,9 @@ const onError = async e => {
             '\nTo: ',
             e.headers.location,
         );
-        return true;
+        return !_.stopped();
     }
+    collect('requestCountError', 1);
     if(e.name === 'TimeoutError'){
         q.add(e.url);
         log.w(
@@ -47,12 +48,14 @@ const onError = async e => {
             '\nTask returned to queue:',
             `\nURL: ${e.url}`,
         );
-        collect('requestCountError', 1);
-        return true;
+        return !_.stopped();
     }
-    if(e.name === 'NetworkError') collect('requestCountError', 1);
+    if(e.name === 'NetworkError'){
+        log.e('\n', errsome(e));
+        return !_.stopped();
+    }
     log.e('\n', errsome(e));
-    return !_.stopped();
+    _.stop();
 };
 
 const onStart = async () => {
