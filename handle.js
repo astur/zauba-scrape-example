@@ -8,7 +8,7 @@ const q = require('./queue');
 const {collect, summary} = require('./sc');
 const _ = require('abbado')({
     timeout: conf.maxTime,
-    count: null,
+    count: conf.maxTasks,
 });
 
 const onSuccess = async s => {
