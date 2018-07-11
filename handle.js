@@ -61,6 +61,7 @@ const onFinish = async () => {
         log.e('\n', errsome(e));
     }
     (await db).close();
+    _.cleanup();
 };
 
 module.exports = {onSuccess, onError, onStart, onFinish};
