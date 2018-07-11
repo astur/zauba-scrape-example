@@ -6,15 +6,21 @@ const errsome = require('errsome');
 const saveLog = require('monscr')(db, conf.save.log);
 const q = require('./queue');
 const {collect, summary} = require('./sc');
+const _ = require('abbado')({
+    timeout: null,
+    count: null,
+});
 
-const onSuccess = s => {
+const onSuccess = async s => {
+    await _.wait();
     collect('requestCountSuccess', 1);
     collect(s.result);
     log.step();
-    return true;
+    return !_.stopped();
 };
 
 const onError = async e => {
+    await _.wait();
     if(/mongo|collection/i.test(e.name)) return;
     if(e.name === 'QueueGetError'){
         if(e.stats.active){
@@ -46,7 +52,7 @@ const onError = async e => {
     }
     if(e.name === 'NetworkError') collect('requestCountError', 1);
     log.e('\n', errsome(e));
-    return true;
+    return !_.stopped();
 };
 
 const onStart = async () => {
