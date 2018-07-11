@@ -6,12 +6,7 @@ const errsome = require('errsome');
 const saveLog = require('monscr')(db, conf.save.log);
 const q = require('./queue');
 const {collect, summary} = require('./sc');
-const _ = require('abbado')({
-    timeout: conf.maxTime,
-    count: conf.maxTasks,
-    errorLimit: conf.maxErrors,
-    tagErrorLimit: conf.maxTagErrors,
-});
+const _ = require('./conductor');
 
 const onSuccess = async s => {
     await _.wait();
