@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "abbado": "0.0.6",
-    "cllc": "^1.0.1",
+    "cllc": "^1.1.0",
     "death": "^1.1.0",
     "delay": "^3.0.0",
     "errsome": "^1.0.0",
