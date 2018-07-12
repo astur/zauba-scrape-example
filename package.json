@@ -16,7 +16,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "abbado": "0.0.5",
+    "abbado": "0.0.6",
     "cllc": "^1.0.1",
     "death": "^1.1.0",
     "delay": "^3.0.0",
