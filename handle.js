@@ -43,7 +43,11 @@ const onError = async e => {
         return !_.stopped();
     }
     log.e('\n', errsome(e));
-    _.stop();
+    _.stop({
+        status: 'error',
+        error: e.name,
+        message: e.message,
+    });
 };
 
 const onStart = async () => {
@@ -53,7 +57,7 @@ const onStart = async () => {
 
 const onFinish = async () => {
     try {
-        const sum = summary();
+        const sum = summary(_.stopped());
         log.i('\n', sum);
         await saveLog(sum);
     } catch(e){

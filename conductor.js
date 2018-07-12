@@ -10,12 +10,18 @@ const abbado = require('abbado')({
 let dieing = false;
 let timer = null;
 
-const offDead = onDeath(() => { // signal, err
+const offDead = onDeath((signal, err) => {
     if(dieing) return;
     dieing = true;
-    abbado.stop();
+    abbado.stop(err ? {
+        status: 'error',
+        error: err.name,
+        message: err.message,
+    } : {
+        status: 'aborted',
+        signal,
+    });
     timer = setTimeout(() => {
-        // log
         process.exit();
     }, conf.waitForExit);
 });

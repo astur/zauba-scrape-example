@@ -14,17 +14,14 @@ const {collect, summary} = require('summary-collector')({
     quantile: 0.95,
 });
 
-const _summary = () => {
+const _summary = arg => {
     const sum = summary();
     const result = {
         src: conf.id,
         startDt: new Date(conf.startDt),
         endDt: new Date(),
         parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
-        result: {
-            status: 'ok',
-            message: '',
-        },
+        result: arg || {status: 'ok'},
     };
     result.requestCountTotal = sum.requestCountSuccess + sum.requestCountError;
     if(result.requestCountTotal > 0){
