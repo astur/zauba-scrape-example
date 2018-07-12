@@ -17,7 +17,7 @@ const offDead = onDeath(() => { // signal, err
     timer = setTimeout(() => {
         // log
         process.exit();
-    }, 5000);
+    }, conf.waitForExit);
 });
 
 abbado.cleanup = () => {

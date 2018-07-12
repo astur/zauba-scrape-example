@@ -19,6 +19,7 @@ conf.id = 'zauba';
 conf.concurrency = 10;
 conf.waitForActive = 500;
 conf.waitAfterTimeoutError = 10000;
+conf.waitForExit = 5000;
 conf.startDt = Date.now();
 conf.mongoString = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
 conf.validate = {codes: 200, bodyMatch: /<\/html>/};
