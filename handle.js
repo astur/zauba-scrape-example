@@ -18,7 +18,6 @@ const onSuccess = async s => {
 
 const onError = async e => {
     await _.wait();
-    if(/mongo|collection/i.test(e.name)) return;
     if(e.name === 'QueueGetError'){
         if(e.stats.active){
             await delay(conf.waitForActive);
