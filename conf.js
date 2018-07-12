@@ -30,9 +30,8 @@ conf.save = {
     },
     log: {
         valid: 'log',
-        errors: 'logerrors',
+        errors: 'log',
         index: 'startDt',
-        check: () => true,
     },
 };
 conf.queue = {
