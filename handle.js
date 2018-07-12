@@ -2,7 +2,6 @@ const conf = require('./conf');
 const db = require('./db');
 const log = require('cllc')(null, '%F %T');
 const delay = require('delay');
-const errsome = require('errsome');
 const saveLog = require('monscr')(db, conf.save.log);
 const q = require('./queue');
 const {collect, summary} = require('./sc');
@@ -39,10 +38,10 @@ const onError = async e => {
         return !_.stopped();
     }
     if(e.name === 'NetworkError'){
-        log.e('\n', errsome(e));
+        log.e(e);
         return !_.stopped();
     }
-    log.e('\n', errsome(e));
+    log.e(e);
     _.stop({
         status: 'error',
         error: e.name,
@@ -61,7 +60,7 @@ const onFinish = async () => {
         log.i('\n', sum);
         await saveLog(sum);
     } catch(e){
-        log.e('\n', errsome(e));
+        log.e(e);
     }
     (await db).close();
     _.cleanup();

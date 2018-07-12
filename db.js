@@ -1,6 +1,5 @@
 const conf = require('./conf');
 const log = require('cllc')(null, '%F %T');
-const errsome = require('errsome');
 const mongo = require('mongodb').MongoClient;
 module.exports = mongo.connect(conf.mongoString, {useNewUrlParser: true}).then(client => {
     if('databaseName' in client) return client;
@@ -8,6 +7,6 @@ module.exports = mongo.connect(conf.mongoString, {useNewUrlParser: true}).then(c
     db.close = client.close.bind(client);
     return db;
 }).catch(e => {
-    log.e('\n', errsome(e));
+    log.e(e);
     process.exit(1);
 });
