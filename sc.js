@@ -23,8 +23,8 @@ const _summary = arg => {
         parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
         result: arg || {status: 'ok'},
     };
-    result.requestCountTotal = sum.requestCountSuccess + sum.requestCountError;
-    if(result.requestCountTotal > 0){
+    if(sum.requestCountSuccess > 0){
+        result.requestCountTotal = sum.requestCountSuccess + sum.requestCountError;
         result.requestCountSuccess = sum.requestCountSuccess;
         result.requestCountError = sum.requestCountError;
         result.bytesSent = sum.bytesSent;
