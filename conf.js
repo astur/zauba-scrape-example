@@ -46,5 +46,6 @@ conf.httpOptions = {
     timeout: 10000,
     compressed: true,
 };
+conf.proxyList = [...Array(10)].map((_, i) => `http://localhost:${3100 + i}`);
 
 module.exports = conf;

@@ -3,10 +3,14 @@ const lavine = require('lavine');
 const pMinDelay = require('p-min-delay');
 const scrape = require('./scrape');
 const {onStart, onFinish} = require('./handle');
+const oassign = require('oassign');
 
 (async () => {
-    const work = () => pMinDelay(scrape(conf.httpOptions), conf.minDelay);
+    const flows = conf.proxyList.map(v => {
+        const opt = oassign(conf.httpOptions, {proxy: v});
+        return () => pMinDelay(scrape(opt), conf.minDelay);
+    });
     await onStart();
-    await lavine([...Array(conf.concurrency)].fill(work), conf.concurrency);
+    await lavine(flows, conf.concurrency);
     await onFinish();
 })();

@@ -12,6 +12,7 @@ module.exports = res => {
         }
         if(/company\//.test(res.url)){
             records.push({
+                proxy: res.options.proxy,
                 url: res.url,
                 name: (res.body.match(/>Home<\/a>.{3}([^<]+)</) || [])[1] || null,
                 asOnDate: (res.body.match(/width:45%;"><b>As on: ([^<]+) <\/b/) || [])[1] || null,
