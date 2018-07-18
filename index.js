@@ -1,11 +1,11 @@
 const conf = require('./conf');
-const whiler = require('whiler');
+const lavine = require('lavine');
 const pMinDelay = require('p-min-delay');
 
 const scrape = require('./scrape');
 const {onSuccess, onError, onStart, onFinish} = require('./handle');
 
 const work = () => pMinDelay(scrape(conf.httpOptions).then(onSuccess, onError), conf.minDelay);
-const flow = () => Promise.all([...Array(conf.concurrency)].map(() => whiler(work)));
+const flows = [...Array(conf.concurrency)].fill(work);
 
-onStart().then(flow).then(onFinish);
+onStart().then(() => lavine(flows, conf.concurrency)).then(onFinish);
