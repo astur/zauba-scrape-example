@@ -1,4 +1,4 @@
-const conf = require('oopt')('act:l:e:E:');
+const conf = require('oopt')('act:l:e:E:p');
 
 // -a - add targets
 // -c - clear data/error DB
@@ -6,6 +6,7 @@ const conf = require('oopt')('act:l:e:E:');
 // -l - scrape maxTasks
 // -E - scrape maxErrors
 // -e - scrape maxTagErrors
+// -p - use proxy list
 
 conf.maxTime = +conf.t || null;
 conf.maxTasks = +conf.l || null;
@@ -46,6 +47,6 @@ conf.httpOptions = {
     timeout: 10000,
     compressed: true,
 };
-conf.proxyList = [...Array(10)].map((_, i) => `http://localhost:${3100 + i}`);
+conf.proxyList = [...Array(conf.concurrency)].map((_, i) => `http://localhost:${3100 + i}`);
 
 module.exports = conf;

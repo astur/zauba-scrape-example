@@ -7,7 +7,7 @@ const oassign = require('oassign');
 
 (async () => {
     const flows = conf.proxyList.map(v => {
-        const opt = oassign(conf.httpOptions, {proxy: v});
+        const opt = conf.p ? oassign(conf.httpOptions, {proxy: v}) : conf.httpOptions;
         return () => pMinDelay(scrape(opt), conf.minDelay);
     });
     await onStart();
