@@ -32,10 +32,8 @@
     "validate-response": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
     "eslint": "^4.13.0",
-    "eslint-config-astur": "0.0.2",
-    "nyc": "^12.0.2"
+    "eslint-config-astur": "0.0.2"
   },
   "license": "MIT"
 }
