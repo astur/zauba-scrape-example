@@ -6,7 +6,7 @@
   "main": "index.js",
   "author": "astur <astur@yandex.ru> (http://kozlov.am/)",
   "scripts": {
-    "test": "eslint . && nyc ava -v"
+    "test": "eslint ."
   },
   "repository": {
     "type": "git",
