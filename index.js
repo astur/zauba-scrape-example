@@ -6,11 +6,14 @@ const {onStart, onFinish} = require('./handle');
 const oassign = require('oassign');
 
 (async () => {
-    const flows = (conf.p ? conf.proxyList : [...Array(conf.concurrency)]).map(v => {
-        const opt = v ? oassign(conf.httpOptions, {proxy: v}) : conf.httpOptions;
+    const getWorker = () => () => pMinDelay(scrape(conf.httpOptions), conf.minDelay);
+    const getProxyWorker = () => {
+        const proxy = conf.proxyList.shift();
+        if(!proxy) return null;
+        const opt = oassign(conf.httpOptions, {proxy});
         return () => pMinDelay(scrape(opt), conf.minDelay);
-    });
+    };
     await onStart();
-    await lavine(flows, conf.concurrency);
+    await lavine(conf.p ? getProxyWorker : getWorker, conf.concurrency);
     await onFinish();
 })();
