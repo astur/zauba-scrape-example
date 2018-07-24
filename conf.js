@@ -27,13 +27,15 @@ conf.mongoString = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
 conf.validate = {codes: 200, bodyMatch: /<\/html>/};
 conf.save = {
     data: {
+        valid: `data_${conf.id}`,
+        errors: `errors_${conf.id}`,
         index: 'url',
         cleanErrors: conf.c,
         cleanValid: conf.c,
     },
     log: {
-        valid: 'log',
-        errors: 'log',
+        valid: `log_${conf.id}`,
+        errors: `log_${conf.id}`,
         index: 'startDt',
     },
 };
