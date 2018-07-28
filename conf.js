@@ -19,7 +19,7 @@ conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/company
 conf.id = 'zauba';
 conf.concurrency = 20;
 conf.waitForActive = 500;
-conf.waitAfterTimeoutError = 10000;
+conf.waitAfterError = 10000;
 conf.waitForExit = 5000;
 conf.minDelay = 50;
 conf.startDt = Date.now();

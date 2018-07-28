@@ -34,11 +34,14 @@ const onError = async e => {
         q.add(e.url);
         _.error(e.url);
         log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
-        _.pause(conf.waitAfterTimeoutError);
+        _.pause(conf.waitAfterError);
         return !_.stopped();
     }
     if(e.name === 'NetworkError'){
-        log.e(e);
+        q.add(e.url);
+        _.error(e.url);
+        log.w(`NetworkError: ${e.cause.name} | ${e.cause.message}\nTask returned to queue:\nURL: ${e.url}`);
+        _.pause(conf.waitAfterError);
         return !_.stopped();
     }
     log.e(e);
