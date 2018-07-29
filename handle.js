@@ -53,6 +53,7 @@ const onError = async e => {
 };
 
 const onStart = async () => {
+    log.i(`Scraping ${conf.a ? 'started' : 'resumed'}`);
     log.start('[ %s - pages scraped]');
     if(conf.a) await q.add(conf.targets);
 };
