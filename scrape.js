@@ -1,12 +1,10 @@
-const conf = require('./conf');
-const db = require('./db');
 const q = require('./queue');
 const scra = require('scra');
 const validate = require('./validate');
 const parse = require('./parse');
 const transform = require('./transform');
 const check = require('./check');
-const save = require('monscr')(db, conf.save.data);
+const save = require('./save');
 
 module.exports = async options => {
     const {data: url, tag} = await q.get();
