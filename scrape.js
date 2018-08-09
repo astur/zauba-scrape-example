@@ -5,7 +5,7 @@ const scra = require('scra');
 const validate = require('./validate');
 const parse = require('./parse');
 const transform = require('./transform');
-const check = require('./check')(db);
+const check = require('./check');
 const save = require('monscr')(db, conf.save.data);
 
 module.exports = async options => {

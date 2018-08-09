@@ -1,4 +1,5 @@
-module.exports = db => async urls => {
+const db = require('./db');
+module.exports = async urls => {
     if(urls.length === 0) return [];
     const found = (await (await db).collection('data')
         .find({url: {$in: urls}}).toArray())
