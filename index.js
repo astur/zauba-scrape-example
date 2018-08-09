@@ -9,14 +9,14 @@ const {onStart, onFinish, onSuccess, onError} = require('./handle');
         options => scrape(options).then(onSuccess, onError),
         conf.minDelay || 0
     );
-    const getWorker = () => () => worker(conf.httpOptions);
-    const getProxyWorker = () => {
+    const getWorker = () => {
+        if(!conf.p) return () => worker(conf.httpOptions);
         const proxy = conf.proxyList.shift();
         if(!proxy) return null;
         const opt = {...conf.httpOptions, proxy};
         return () => worker(opt);
     };
     await onStart();
-    await lavine(conf.p ? getProxyWorker : getWorker, conf.concurrency);
+    await lavine(getWorker, conf.concurrency);
     await onFinish();
 })();
