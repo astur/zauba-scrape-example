@@ -7,9 +7,8 @@ const parse = require('./parse');
 const transform = require('./transform');
 const check = require('./check')(db);
 const save = require('monscr')(db, conf.save.data);
-const {onSuccess, onError} = require('./handle');
 
-const scrape = async options => {
+module.exports = async options => {
     const {data: url, tag} = await q.get();
 
     try {
@@ -37,5 +36,3 @@ const scrape = async options => {
         throw e;
     }
 };
-
-module.exports = options => scrape(options).then(onSuccess, onError);
