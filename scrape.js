@@ -13,11 +13,6 @@ module.exports = async options => {
 
     try {
         const response = await scra({...options, url});
-        const result = {
-            requestTime: response.requestTime,
-            bytesSent: response.bytes.sent,
-            bytesReceived: response.bytes.received,
-        };
         await validate(response);
         const parsed = await parse(response);
 
@@ -29,7 +24,15 @@ module.exports = async options => {
         await q.add(urls);
         await q.ack(tag);
 
-        return {url, result: {...result, ...saved}};
+        return {
+            url,
+            result: {
+                requestTime: response.requestTime,
+                bytesSent: response.bytes.sent,
+                bytesReceived: response.bytes.received,
+                ...saved,
+            },
+        };
     } catch(e){
         if(/mongo/i.test(e.name)) throw e;
         await q.ack(tag);
