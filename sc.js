@@ -1,4 +1,5 @@
 const conf = require('./conf');
+const startDt = Date.now();
 
 const {collect, summary} = require('summary-collector')({
     counters: [
@@ -18,9 +19,9 @@ const _summary = arg => {
     const sum = summary();
     const result = {
         src: conf.id,
-        startDt: new Date(conf.startDt),
+        startDt: new Date(startDt),
         endDt: new Date(),
-        parseDuration: Math.ceil((Date.now() - conf.startDt) / 1000),
+        parseDuration: Math.ceil((Date.now() - startDt) / 1000),
         result: arg || {status: 'ok'},
     };
     if(sum.requestCountSuccess > 0){

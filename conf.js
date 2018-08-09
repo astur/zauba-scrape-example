@@ -22,7 +22,6 @@ conf.waitForActive = 500;
 conf.waitAfterError = 10000;
 conf.waitForExit = 5000;
 conf.minDelay = 50;
-conf.startDt = Date.now();
 conf.mongoString = process.env.MONGO_URI || 'mongodb://localhost:27017/test';
 conf.validate = {codes: 200, bodyMatch: /<\/html>/};
 conf.save = {
