@@ -61,7 +61,7 @@ const onStart = async () => {
 const onFinish = async () => {
     try {
         const sum = summary(_.stopped());
-        log.i('\n', sum);
+        log.i(`Scraping ${sum.status === 'ok' ? 'finished' : 'stopped'}\n`, sum);
         await saveLog(sum);
     } catch(e){
         log.e(e);
