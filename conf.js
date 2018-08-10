@@ -1,4 +1,4 @@
-const conf = require('oopt')('act:l:e:E:p');
+const conf = require('oopt')('act:l:e:E:pv');
 
 // -a - add targets
 // -c - clear data/error DB
@@ -7,6 +7,7 @@ const conf = require('oopt')('act:l:e:E:p');
 // -E - scrape maxErrors
 // -e - scrape maxTagErrors
 // -p - use proxy list
+// -v - more informative log
 
 conf.maxTime = +conf.t || null;
 conf.maxTasks = +conf.l || null;
