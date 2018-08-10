@@ -11,7 +11,7 @@ const onSuccess = async s => {
     await _.wait();
     collect('requestCountSuccess', 1);
     collect(s.result);
-    log.step();
+    log.inc(1);
     return !_.stopped();
 };
 
@@ -27,9 +27,11 @@ const onError = async e => {
     if(e.name === 'ValidateResponceError' && e.codes.includes('E_INVALID_STATUS') && e.statusCode === 301){
         q.add(e.headers.location);
         log.w(`Redirected permanently.\nFrom: ${e.url}\nTo: ${e.headers.location}`);
+        log.inc(2);
         return !_.stopped();
     }
     collect('requestCountError', 1);
+    log.inc(3);
     if(e.name === 'TimeoutError'){
         q.add(e.url);
         _.error(e.url);
@@ -54,7 +56,7 @@ const onError = async e => {
 
 const onStart = async () => {
     log.i(`Scraping ${conf.a ? 'started' : 'resumed'}`);
-    log.start('[ %s - pages scraped]');
+    log.start('[ %s - pages scraped | %s - redirects | %s - errors ]');
     if(conf.a) await q.add(conf.targets);
 };
 
