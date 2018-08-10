@@ -1,10 +1,10 @@
-const conf = require('./conf');
+const {maxTime, maxTasks, maxErrors, maxTagErrors, waitForExit} = require('./conf');
 const onDeath = require('death');
 const abbado = require('abbado')({
-    timeout: conf.maxTime,
-    count: conf.maxTasks,
-    errorLimit: conf.maxErrors,
-    tagErrorLimit: conf.maxTagErrors,
+    timeout: maxTime,
+    count: maxTasks,
+    errorLimit: maxErrors,
+    tagErrorLimit: maxTagErrors,
 });
 
 let dieing = false;
@@ -23,7 +23,7 @@ const offDead = onDeath((signal, err) => {
     });
     timer = setTimeout(() => {
         process.exit();
-    }, conf.waitForExit);
+    }, waitForExit);
 });
 
 abbado.cleanup = () => {

@@ -1,4 +1,4 @@
-const conf = require('./conf');
+const {id} = require('./conf');
 const startDt = Date.now();
 
 const {collect, summary} = require('summary-collector')({
@@ -18,7 +18,7 @@ const {collect, summary} = require('summary-collector')({
 const _summary = arg => {
     const sum = summary();
     const result = {
-        src: conf.id,
+        src: id,
         startDt: new Date(startDt),
         endDt: new Date(),
         parseDuration: Math.ceil((Date.now() - startDt) / 1000),
