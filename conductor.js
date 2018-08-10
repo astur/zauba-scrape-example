@@ -27,6 +27,7 @@ const offDead = onDeath((signal, err) => {
 });
 
 abbado.cleanup = () => {
+    abbado.resume();
     clearTimeout(timer);
     offDead();
 };
