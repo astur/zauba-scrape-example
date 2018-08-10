@@ -1,4 +1,4 @@
-const conf = require('oopt')('act:l:e:E:pv');
+const cli = require('oopt')('act:l:e:E:pv');
 
 // -a - add targets
 // -c - clear data/error DB
@@ -10,21 +10,24 @@ const conf = require('oopt')('act:l:e:E:pv');
 // -v - more informative log
 // [] - add partial targets
 
-conf.maxTime = +conf.t || null;
-conf.maxTasks = +conf.l || null;
-conf.maxErrors = +conf.E || null;
-conf.maxTagErrors = +conf.e || null;
+const conf = {};
 
-if(conf.a){
+conf.maxTime = +cli.t || null;
+conf.maxTasks = +cli.l || null;
+conf.maxErrors = +cli.E || null;
+conf.maxTagErrors = +cli.e || null;
+
+if(cli.a){
     conf.targets = [...Array(26).keys()]
         .map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
-} else if(conf._ && conf._.length){
-    const slugs = conf._.filter(s => /^[a-zA-Z]{1,5}$/.test(s));
+} else if(cli._ && cli._.length){
+    const slugs = cli._.filter(s => /^[a-zA-Z]{1,5}$/.test(s));
     conf.targets = slugs.map(s => `https://www.zaubacorp.com/companybrowse/${s}`);
 }
 
 conf.id = 'zauba';
 conf.concurrency = 20;
+conf.verbose = cli.v;
 conf.waitForActive = 500;
 conf.waitAfterError = 10000;
 conf.waitForExit = 5000;
@@ -36,8 +39,8 @@ conf.save = {
         valid: `data_${conf.id}`,
         errors: `errors_${conf.id}`,
         index: 'url',
-        cleanErrors: conf.c,
-        cleanValid: conf.c,
+        cleanErrors: cli.c,
+        cleanValid: cli.c,
     },
     log: {
         valid: `log_${conf.id}`,
@@ -55,7 +58,7 @@ conf.httpOptions = {
     timeout: 10000,
     compressed: true,
 };
-if(conf.p){
+if(cli.p){
     conf.proxyList = [...Array(conf.concurrency)].map((_, i) => `http://localhost:${3100 + i}`);
 }
 

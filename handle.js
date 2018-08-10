@@ -26,7 +26,7 @@ const onError = async e => {
     }
     if(e.name === 'ValidateResponceError' && e.codes.includes('E_INVALID_STATUS') && e.statusCode === 301){
         q.add(e.headers.location);
-        if(conf.v) log.w(`Redirected permanently.\nFrom: ${e.url}\nTo: ${e.headers.location}`);
+        if(conf.verbose) log.w(`Redirected permanently.\nFrom: ${e.url}\nTo: ${e.headers.location}`);
         log.inc(2);
         return !_.stopped();
     }
@@ -35,14 +35,14 @@ const onError = async e => {
     if(e.name === 'TimeoutError'){
         q.add(e.url);
         _.error(e.url);
-        if(conf.v) log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
+        if(conf.verbose) log.w(`Request aborted by timeout ${e.timeout} ms\nTask returned to queue:\nURL: ${e.url}`);
         _.pause(conf.waitAfterError);
         return !_.stopped();
     }
     if(e.name === 'NetworkError'){
         q.add(e.url);
         _.error(e.url);
-        if(conf.v) log.w(`NetworkError: ${e.cause.name} | ${e.cause.message}\nTask returned to queue:\nURL: ${e.url}`);
+        if(conf.verbose) log.w(`NetworkError: ${e.cause.name} | ${e.cause.message}\nTask returned to queue:\nURL: ${e.url}`);
         _.pause(conf.waitAfterError);
         return !_.stopped();
     }
