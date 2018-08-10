@@ -10,7 +10,7 @@ const {onStart, onFinish, onSuccess, onError} = require('./handle');
         conf.minDelay || 0
     );
     const getWorker = () => {
-        if(!conf.p) return () => worker(conf.httpOptions);
+        if(!conf.proxyList) return () => worker(conf.httpOptions);
         const proxy = conf.proxyList.shift();
         if(!proxy) return null;
         const opt = {...conf.httpOptions, proxy};
