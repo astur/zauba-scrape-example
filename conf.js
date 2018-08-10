@@ -8,14 +8,20 @@ const conf = require('oopt')('act:l:e:E:pv');
 // -e - scrape maxTagErrors
 // -p - use proxy list
 // -v - more informative log
+// [] - add partial targets
 
 conf.maxTime = +conf.t || null;
 conf.maxTasks = +conf.l || null;
 conf.maxErrors = +conf.E || null;
 conf.maxTagErrors = +conf.e || null;
 
-// conf.targets = ['https://www.zaubacorp.com/companybrowse/X'];
-conf.targets = [...Array(26).keys()].map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
+if(conf.a){
+    conf.targets = [...Array(26).keys()]
+        .map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
+} else if(conf._ && conf._.length){
+    const slugs = conf._.filter(s => /^[a-zA-Z]{1,5}$/.test(s));
+    conf.targets = slugs.map(s => `https://www.zaubacorp.com/companybrowse/${s}`);
+}
 
 conf.id = 'zauba';
 conf.concurrency = 20;
@@ -41,7 +47,7 @@ conf.save = {
 };
 conf.queue = {
     name: `mq_${conf.id}`,
-    clean: conf.a,
+    clean: !!conf.targets,
     strict: true,
     tries: 1,
 };

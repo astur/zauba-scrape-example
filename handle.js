@@ -55,9 +55,9 @@ const onError = async e => {
 };
 
 const onStart = async () => {
-    log.i(`Scraping ${conf.a ? 'started' : 'resumed'}`);
+    log.i(`Scraping ${conf.targets ? 'started' : 'resumed'}`);
     log.start('[ %s - pages scraped | %s - redirects | %s - errors ]');
-    if(conf.a) await q.add(conf.targets);
+    if(conf.targets) await q.add(conf.targets);
 };
 
 const onFinish = async () => {
