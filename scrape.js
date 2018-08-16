@@ -23,13 +23,10 @@ module.exports = async options => {
         await q.ack(tag);
 
         return {
-            url,
-            result: {
-                requestTime: response.requestTime,
-                bytesSent: response.bytes.sent,
-                bytesReceived: response.bytes.received,
-                ...saved,
-            },
+            requestTime: response.requestTime,
+            bytesSent: response.bytes.sent,
+            bytesReceived: response.bytes.received,
+            ...saved,
         };
     } catch(e){
         if(/mongo/i.test(e.name)) throw e;

@@ -7,10 +7,10 @@ const q = require('./queue');
 const {collect, summary} = require('./sc');
 const _ = require('./conductor');
 
-const onSuccess = async s => {
+const onSuccess = async result => {
     await _.wait();
     collect('requestCountSuccess', 1);
-    collect(s.result);
+    collect(result);
     log.inc(1);
     return !_.stopped();
 };
