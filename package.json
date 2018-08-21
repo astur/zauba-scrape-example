@@ -16,23 +16,23 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "abbado": "0.0.7",
-    "cllc": "^1.1.0",
+    "abbado": "0.0.8",
+    "cllc": "^1.1.1",
     "death": "^1.1.0",
-    "delay": "^3.0.0",
-    "lavine": "^1.0.0",
-    "mongodb": "^3.1.1",
-    "monscr": "^1.3.1",
-    "mq-mongo": "^1.3.0",
-    "oopt": "^1.0.0",
-    "scra": "^1.3.0",
-    "summary-collector": "^1.0.0",
-    "unquick": "0.0.3",
-    "validate-response": "^1.2.0"
+    "delay": "^3.1.0",
+    "lavine": "^1.0.1",
+    "mongodb": "^3.1.3",
+    "monscr": "^1.3.2",
+    "mq-mongo": "^1.3.1",
+    "oopt": "^1.0.1",
+    "scra": "^1.3.1",
+    "summary-collector": "^1.0.1",
+    "unquick": "0.0.4",
+    "validate-response": "^1.2.1"
   },
   "devDependencies": {
-    "eslint": "^4.13.0",
-    "eslint-config-astur": "0.0.2"
+    "eslint": "^5.4.0",
+    "eslint-config-astur": "^1.6.1"
   },
   "license": "MIT"
 }
