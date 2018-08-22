@@ -13,7 +13,7 @@
     "url": "https://github.com/astur/zauba-scrape-example.git"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.3.0"
   },
   "dependencies": {
     "abbado": "0.0.8",
