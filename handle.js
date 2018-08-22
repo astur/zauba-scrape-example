@@ -22,7 +22,7 @@ const onError = async e => {
             await delay(waitForActive);
             return !_.stopped();
         }
-        return;
+        return false;
     }
     if(e.name === 'ValidateResponceError' && e.codes.includes('E_INVALID_STATUS') && e.statusCode === 301){
         q.add(e.headers.location);
@@ -52,6 +52,7 @@ const onError = async e => {
         error: e.name,
         message: e.message,
     });
+    return false;
 };
 
 const onStart = async () => {

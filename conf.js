@@ -20,7 +20,7 @@ conf.maxTagErrors = +cli.e || null;
 if(cli.a){
     conf.targets = [...Array(26).keys()]
         .map(i => `https://www.zaubacorp.com/companybrowse/${String.fromCharCode(i + 'A'.charCodeAt(0))}`);
-} else if(cli._ && cli._.length){
+} else if(cli._ && cli._.length > 0){
     const slugs = cli._.filter(s => /^[a-zA-Z]{1,5}$/.test(s));
     conf.targets = slugs.map(s => `https://www.zaubacorp.com/companybrowse/${s}`);
 }
